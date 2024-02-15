@@ -25,9 +25,19 @@ def get_tasks():
     task_list = [task.to_dict() for task in tasks]
     output = {
                 "tasks": task_list,
-                "total_task": 0
+                "total_task": len(task_list)
             }
     return jsonify(output)
+
+@app.route('/tasks/<int:id>', methods=['GET'])
+def get_task(id):
+    task = None
+    for t in tasks:
+        if t.id == id:
+            return jsonify(t.to_dict())
+        
+    return jsonify({"message": "Não foi possível encontrar a atividsade"}), 404
+    
 
 if __name__ == "__main__":
     app.run(debug=True)
